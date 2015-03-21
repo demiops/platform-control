@@ -367,6 +367,46 @@
 	<script src="js/wow.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.js"></script>
+    <script>
+            $("#contact-form").submit(function(event) {
+                    event.preventDefault();
+                    var $form = $(this),
+                    name = $("input#name").val(),
+                    email = $("input#email").val(),
+                    subject = $("select#subject").val(),
+                    message = $("textarea#message").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                        data: {
+                                'key': 'PdEJIZqAFPgIvr7x9KUMvg',
+                                'message': {
+                                        'from_email': email,
+                                        'from_name': name,
+                                        'subject': subject,
+                                        'text': message,
+                                        'to': [
+                                                { 
+                                                'email': 'mzuniga@demiops.com',
+                                                'name': 'Miguel Zuniga',
+                                                'type': 'to'
+                                                }
+                                        ],
+                                        'headers': {
+                                                'Reply-To': email
+                                        },
+                                        'autotext': 'true'
+                                }
+                        }
+                }).done(function(response) { 
+                        alert("Mensaje Enviado...");
+                        $("input#name").val('');
+                        $("input#email").val('');
+                        $("select#subject").val('na');
+                        $("textarea#message").val('');
+                });
+            });
+    </script>
 
 </body>
 
